@@ -131,8 +131,8 @@ SuperDirt {
 		soundLibrary.loadSoundFiles(paths, appendToExisting = false, namingFunction)
 	}
 
-	loadSoundFilesToBank { |paths, appendToExisting = false, bankName|
-		soundLibrary.loadSoundFilesToBank(paths, appendToExisting = false, bankName)
+	loadSoundFilesToBank { |paths, appendToExisting = false, bankName, namingFunction|
+		soundLibrary.loadSoundFilesToBank(paths, appendToExisting = false, bankName, namingFunction)
 	}
 
 	loadSoundFileFolder { |folderPath, name, appendToExisting = false, sortFiles = true|
