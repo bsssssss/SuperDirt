@@ -172,6 +172,7 @@ SuperDirt {
 	}
 
 	buffers { ^soundLibrary.buffers }
+	banks { ^soundLibrary.banks }
 	fileExtensions { ^soundLibrary.fileExtensions }
 	fileExtensions_ { |list| ^soundLibrary.fileExtensions_(list) }
 

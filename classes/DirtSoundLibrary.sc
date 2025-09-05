@@ -10,7 +10,7 @@ valid fileExtensions can be extended, currently they are ["wav", "aif", "aiff", 
 
 DirtSoundLibrary {
 
-	var <server, <numChannels, <buffers, <bufferEvents, <synthEvents, <metaDataEvents;
+	var <server, <numChannels, <banks, <buffers, <bufferEvents, <synthEvents, <metaDataEvents;
 	var <>fileExtensions = #["wav", "aif", "aiff", "aifc"];
 	var <>verbose = false;
 	var <>defaultEvent;
@@ -21,6 +21,7 @@ DirtSoundLibrary {
 	}
 
 	init {
+		banks = IdentityDictionary.new;
 		buffers = IdentityDictionary.new;
 		bufferEvents = IdentityDictionary.new;
 		synthEvents = IdentityDictionary.new;
@@ -30,6 +31,12 @@ DirtSoundLibrary {
 	free {
 		synthEvents.clear;
 		this.freeAllSoundFiles;
+	}
+
+	addBank { |name|
+		if(name.isNil) { Error("tried to add nil to a bank").throw };
+		name = name.asSymbol;
+		banks[name] = banks[name].add(name);
 	}
 
 	addBuffer { |name, buffer, appendToExisting = false, metaData|
@@ -151,7 +158,8 @@ DirtSoundLibrary {
 		var form = "%_%";
 		if(bankName.isNil) { Error("to load into a bank, you have to give a bank name").throw };
 		namingFunction = namingFunction ?? { { |path| format(form, bankName, path.basename) } };
-		this.loadSoundFiles(paths, appendToExisting, namingFunction)
+		this.loadSoundFiles(paths, appendToExisting, namingFunction);
+		this.addBank(bankName);
 	}
 
 	loadSoundFiles { |paths, appendToExisting = false, namingFunction = (_.basename)| // paths are folderPaths
